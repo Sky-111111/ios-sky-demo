@@ -1,0 +1,29 @@
+name: Build iOS App
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Compile Objective‑C code
+        run: |
+          mkdir -p Payload/Sky.app
+          clang -arch arm64 -isysroot $(xcode-select -p)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk \
+          -mios-version-min=15.0 \
+          -framework UIKit -framework Foundation \
+          Sky.m -o Payload/Sky.app/Sky
+
+          cp Info.plist Payload/Sky.app/Info.plist
+
+      - name: Zip to IPA
+        run: |
+          zip -r Sky.ipa Payload
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sky-IPA
+          path: Sky.ipa
