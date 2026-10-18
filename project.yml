@@ -1,0 +1,21 @@
+name: SkyApp
+options:
+  bundleIdPrefix: com.demo
+  deploymentTarget:
+    iOS: "15.0"
+  platform: iOS
+  xcodeVersion: "15.0"
+
+targets:
+  Sky:
+    type: application
+    platform: iOS
+    sources:
+      - Sky.h
+      - Sky.m
+    info:
+      path: Info.plist
+    settings:
+      BASE_SDK: iphoneos
+      ARCHS: arm64
+      VALID_ARCHS: arm64
